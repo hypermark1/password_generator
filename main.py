@@ -13,7 +13,7 @@ def generate_password(length=12, use_letters=True, use_uppercase=True, use_digit
     if use_special:
         characters += string.punctuation
 
-    if not characters:  # Если пользователь не выбрал ни один из типов символов
+    if not characters:
         raise ValueError("Вы должны выбрать хотя бы один тип символов для генерации пароля.")
 
     password = ''.join(secrets.choice(characters) for i in range(length))
@@ -30,7 +30,7 @@ def get_user_preferences():
 
 
 def save_passwords(passwords_with_notes, filename='passwords.txt'):
-    with open(filename, 'a') as file:  # Используем 'a' для добавления новых паролей
+    with open(filename, 'a') as file:
         for password, note in passwords_with_notes:
             file.write(f"{note} - {password}\n")
 
@@ -45,7 +45,7 @@ def assess_password_strength(password):
         strength += 1
     if any(char in string.punctuation for char in password):
         strength += 1
-    return strength  # 0 - очень слабый, 4 - очень сложный
+    return strength
 
 
 def display_password(password, mask=False):
@@ -66,10 +66,10 @@ def main():
     length, use_letters, use_uppercase, use_digits, use_special = get_user_preferences()
     mask, note = get_display_preferences()
     password = generate_password(length, use_letters, use_uppercase, use_digits, use_special)
-    display_password(password, mask=mask)  # Вывод пароля с учетом предпочтений пользователя
+    display_password(password, mask=mask)
     print(f"Сложность пароля: {assess_password_strength(password)}")
     passwords_with_notes.append((password, note))
-    save_passwords(passwords_with_notes)  # Сохраняем пароли с добавлением к существующим
+    save_passwords(passwords_with_notes)
 
 
 if __name__ == "__main__":
